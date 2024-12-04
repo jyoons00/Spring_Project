@@ -1,0 +1,38 @@
+package kr.ohora.www.service;
+
+import java.sql.SQLException;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
+
+import kr.ohora.www.domain.UserDTO;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+public interface UserService {
+   
+   // 회원 가입 및 회원가입 완료
+   public Integer join(UserDTO dto) throws SQLException;
+   
+	// 중복 체크
+	public boolean jungbokCK(String msgTag, String value) throws SQLException;
+   
+   // 아이디 찾기
+   public UserDTO findUser(UserDTO dto) throws SQLException;
+   
+   // 비밀번호 찾기
+   public UserDTO findPwd(UserDTO dto) throws SQLException;
+
+   // 비밀번호 변경
+   public Integer changePwd(UserDTO dto) throws SQLException;
+
+
+
+
+
+
+   
+   
+
+   
+} // interface

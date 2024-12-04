@@ -1,0 +1,68 @@
+package kr.ohora.www.service;
+
+import java.sql.SQLException;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.ohora.www.domain.UserDTO;
+import kr.ohora.www.persistence.UserMapper;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Service
+@Log4j
+public class UserServiceImpl implements UserService {
+
+   @Autowired
+   private UserMapper userDao;
+   
+   // 회원 가입 및 회원가입 완료
+   @Override
+   public Integer join(UserDTO dto) throws SQLException {
+      log.info("joinServiceImpl test");
+      
+      return this.userDao.join(dto);
+   }
+   
+   // 중복 체크
+	@Override
+	public UserDTO jungbok(UserDTO dto) throws SQLException {
+		
+		return this.userDao.jungbok(dto);
+	}
+
+   // 아이디 찾기
+	@Override
+	public UserDTO findUser(UserDTO dto) throws SQLException {
+		
+		return this.userDao.findUser(dto);
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public UserDTO findPwd(UserDTO dto) throws SQLException {
+		
+		return this.userDao.findPwd(dto);
+	}
+
+
+	    @Autowired
+	    private SqlSession sqlSession; // MyBatis SQL 세션을 주입
+
+	    // 중복 체크 메서드
+	    public boolean jungbokCK(UserDTO dto) throws SQLException {
+	        boolean isjungbok = false;
+	        try {
+	            int rowCount = sqlSession.selectOne("kr.ohora.www.dao.UserDAO.jungbokCK", dto);
+	            isjungbok = rowCount > 0;
+	        } catch (Exception e) {
+	            System.out.println("중복체크 오류");
+	            e.printStackTrace();
+	        }
+	        return isjungbok;
+	    }
+   
+   
+} // class

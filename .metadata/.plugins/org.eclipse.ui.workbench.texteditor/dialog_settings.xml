@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<item key="selection" value=""/>
+		<list key="findhistory">
+			<item value="authCode"/>
+			<item value="hidden"/>
+			<item value="passwordEncoder"/>
+			<item value="by"/>
+			<item value="endco"/>
+			<item value=".phoneMsg"/>
+			<item value="#phone"/>
+			<item value="data-checked"/>
+			<item value="idMsg()"/>
+			<item value="중복"/>
+			<item value="잘못된 "/>
+			<item value="잘못된 인증번호"/>
+			<item value="texttext"/>
+			<item value="#texttext"/>
+			<item value="sendVer"/>
+		</list>
+		<list key="replacehistory">
+			<item value=""/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="19"/>
+		<item key="DIALOG_Y_ORIGIN" value="1069"/>
+		<item key="DIALOG_WIDTH" value="473"/>
+		<item key="DIALOG_HEIGHT" value="431"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="426"/>
+		<item key="DIALOG_Y_ORIGIN" value="561"/>
+	</section>
+</section>

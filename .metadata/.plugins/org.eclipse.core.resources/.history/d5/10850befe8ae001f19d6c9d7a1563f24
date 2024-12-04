@@ -1,0 +1,100 @@
+// 중복 검사 함수
+function info_jungbok(id, msg) {
+    let value = $("#" + id).val(); // 선택한 필드의 값을 가져옴
+
+    // 중복 체크할 필드들
+    let userLoginId = $("#user_login_id").val();
+    let userTel = $("#phone").val();
+    let userEmail = $("#email").val();
+
+    // 데이터가 올바르게 입력되었는지 확인하는 검증 함수들
+    if (isValidId(userLoginId) && isValidPhone(userTel) && isValidEmail(userEmail)) {
+        
+        $.ajax({
+            url: "/join1.ajax/checkDuplication",  // 실제 REST 컨트롤러의 URL
+            dataType: "json",
+            type: "GET",
+            data: {
+                userLoginId: userLoginId,
+                userTel: userTel,
+                userEmail: userEmail
+            },
+            success: function(data) {
+                // 중복 결과에 따른 처리
+                if (data.status === 409) {  // 중복된 값이 있을 경우
+                    if (msg === "idMsg") {
+                        $("#idMsg").text("이미 사용 중인 아이디입니다.").css("color", "red");
+                    } else if (msg === "emailMsg") {
+                        $("#emailMsg").text("이미 사용 중인 이메일입니다.").css("color", "red");
+                    } else if (msg === "phoneMsg") {
+                        $(".phoneMsg").text("이미 사용 중인 전화번호입니다.").css("color", "red");
+                    }
+                } else {
+                    if (msg === "idMsg") {
+                        $("#idMsg").text("사용 가능한 아이디입니다.").css("color", "green");
+                    } else if (msg === "emailMsg") {
+                        $("#emailMsg").text("사용 가능한 이메일입니다.").css("color", "green");
+                    } else if (msg === "phoneMsg") {
+                        $(".phoneMsg").text("사용 가능한 전화번호입니다.").css("color", "green");
+                    }
+                    $("#" + id).attr('data-checked', 'true'); // 중복 체크 성공 시 데이터 설정
+                }
+            },
+            error: function() {
+                alert("에러가 발생했습니다. 다시 시도해 주세요.");
+            }
+        });
+    } else {
+        // 유효성 검사 실패 시 메시지 출력
+        alert("입력된 값이 올바르지 않습니다.");
+    }
+}
+
+// 버튼 클릭 시 유효성 검사 및 중복 체크
+function copy_join_btn(event) {
+    // 이메일, 전화번호, 아이디 중복체크 여부 확인
+    if ($("#email").attr('data-checked') === "false") {
+        alert("이메일 중복체크하세요");
+        return;
+    }
+    if ($("#phone").attr('data-checked') === "false") {
+        alert("전화번호 중복체크하세요");
+        return;
+    }
+    if ($("#user_login_id").attr('data-checked') === "false") {
+        alert("아이디 중복체크하세요");
+        return;
+    }
+
+    // 유효성 검사
+    let email = $("#email").val();
+    if (!isValidEmail(email)) {
+        alert("이메일을 정확히 입력해주세요");
+        return;
+    }
+
+    let pwd = $("#passwd").val();
+    let pwdc = $("#passwd-confirm").val();
+    if (pwd !== pwdc) {
+        alert("비밀번호가 일치하지 않습니다");
+        return;
+    }
+
+    let phone = $("#phone").val();
+    if (!isValidPhone(phone)) {
+        alert("전화번호를 정확히 입력해주세요");
+        return;
+    }
+
+    // 필수 항목 체크
+    if ($("#termCk").is(':checked') && $("#privacyCk").is(':checked') && $("#consignCk").is(':checked') && $("#ageCk").is(':checked')) {
+        // 모든 약관 동의 체크됨
+    } else {
+        alert("필수 약관 동의가 필요합니다.");
+        return;
+    }
+
+    // 폼 제출
+    alert("가입완료!");
+    $("#joinForm").submit();
+}

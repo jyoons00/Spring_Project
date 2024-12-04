@@ -1,0 +1,57 @@
+package kr.ohora.www.service;
+
+import java.sql.SQLException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import kr.ohora.www.domain.UserDTO;
+import kr.ohora.www.persistence.UserMapper;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Service
+@Log4j
+public class UserServiceImpl implements UserService {
+
+   @Autowired
+   private UserMapper userDao;
+   
+   // 회원 가입 및 회원가입 완료
+   @Override
+   public Integer join(UserDTO dto) throws SQLException {
+      log.info("joinServiceImpl test");
+      
+      return this.userDao.join(dto);
+   }
+   
+   // 중복 체크
+	@Override
+	public boolean jungbokCK(UserDTO dto) throws SQLException {
+		
+		return this.userDao.jungbokCK(dto);
+	}
+
+   // 아이디 찾기
+	@Override
+	public UserDTO findUser(UserDTO dto) throws SQLException {
+		
+		return this.userDao.findUser(dto);
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public UserDTO findPwd(UserDTO dto) throws SQLException {
+		
+		return this.userDao.findPwd(dto);
+	}
+
+	// 비밀번호 변경
+	@Override
+	public UserDTO changePwd(UserDTO dto) throws SQLException {
+		return this.userDao.changePwd(dto);
+	}
+
+	
+   
+} // class

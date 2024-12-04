@@ -1,0 +1,29 @@
+package kr.ohora.www.persistence;
+
+import java.sql.SQLException;
+
+import org.apache.ibatis.annotations.Param;
+
+import kr.ohora.www.domain.UserDTO;
+
+public interface UserMapper {
+	
+		// 회원 가입
+	   public Integer join(UserDTO dto) throws SQLException;
+	
+		// 로그인 처리
+		public UserDTO login( @Param("id") String id ) throws SQLException;
+	  
+	   // 아이디 찾기
+		 public UserDTO findUser(UserDTO dto) throws SQLException;
+		 
+		// 비밀번호 찾기
+		public UserDTO findPwd(UserDTO dto) throws SQLException;
+		  
+	     // 비밀번호 변경
+	     public Integer changePasswd(@Param("confirmPassword") String confirmPassword, @Param("userID") String userID);
+
+
+
+	
+} // interface

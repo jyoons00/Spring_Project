@@ -1,0 +1,134 @@
+package kr.ohora.www.controller;
+
+import java.sql.SQLException; 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import kr.ohora.www.domain.review.CommentDTO;
+import kr.ohora.www.domain.review.ReviewDTO;
+import kr.ohora.www.service.ReviewService;
+import lombok.extern.log4j.Log4j;
+
+@RestController
+@Log4j
+@RequestMapping("/ajax/*")
+public class ReviewRESTController {
+	
+	@Autowired
+	private ReviewService reviewService;
+	
+	@GetMapping( value =  "/reviewcommentList/{revId}.ajax" )
+	public  ResponseEntity<List<CommentDTO>> getComments(@PathVariable("revId") int revId) throws SQLException {
+
+		log.info("> AJAXAJAX : RESTRESTRESTRESTRESTRESTRESTREST@!@!@!");
+
+		// return this.reviewService.cmtSelect(revId);
+		 return new ResponseEntity<>(this.reviewService.cmtSelect(revId), HttpStatus.OK);
+		 
+	}
+	
+	
+	@PostMapping( value = "/reviewcommentWriteAndcntUp.ajax" )
+	public void postComment(
+			@RequestParam("comment") String comment ,
+			@RequestParam("userId") int userId,
+			@RequestParam("revId") int revId
+			) throws SQLException {
+		Date writedate = new Date();
+		log.info("> AJAXAJAX : 댓글작성");
+		System.out.println("코멘트: " + comment + "/" + "유저 아이디" + userId + "/" + "리뷰아이디" + revId + "작성일 " + writedate);
+		this.reviewService.insertCommentAndCntUp(revId, userId, comment,  writedate);
+
+	}
+	
+	@GetMapping( value =  "/reviewcommentCntUpView/{revId}.ajax" )
+	public  ResponseEntity<List<CommentDTO>> getBaroComments(@PathVariable("revId") int revId) throws SQLException {
+
+		log.info("> AJAXAJAX : BAROOOORESTRESTRESTRESTRESTRESTRESTREST@!@!@!");
+
+		// return this.reviewService.cmtSelect(revId);
+		 return new ResponseEntity<>(this.reviewService.cmtBaroSelect(revId), HttpStatus.OK);
+		 
+	}
+	
+	@GetMapping(value ="/reviewcommentDelete.ajax")
+	public int deleteComment(@RequestParam("cmt_id") int cmtId ,@RequestParam("revId") int revId ) throws SQLException {
+		int rowCount;
+		
+		log.info("> AJAXAJAX : BAROOOORESTRESTRESTRESTRESTRESTRESTREST@!@!@! :::" + cmtId +"/" +revId);
+		rowCount = this.reviewService.deleteCommentAndCntUp(cmtId, revId);
+		
+		if ( rowCount ==2 ) {
+			log.info("> AJAXAJAX : REVIDREVIDREVIDREVIDREVIDREVIDREVID :::" + rowCount +"/" +revId);
+			return revId;
+		} else {
+			rowCount= 0;
+		}
+		
+		return rowCount;
+		
+	}
+	
+	
+	// 인증번호 전송
+    @GetMapping(value = "/getVerifyCode.ajax")
+    public ResponseEntity<String> getVerifyCode() {
+        // 5자리 숫자 생성
+        Random random = new Random();
+        int authCode = 10000 + random.nextInt(90000); // 10000 ~ 99999 사이의 숫자 생성
+
+        // 고유한 키 생성 (UUID 사용)
+        String uniqueKey = UUID.randomUUID().toString();
+
+        // 인증번호를 Map에 저장 (고유 키로 저장)
+        authCodes.put(uniqueKey, String.valueOf(authCode));
+
+        // 인증번호 출력 (자바 콘솔에 띄우기)
+        System.out.println("생성된 인증번호: " + authCode);  // 인증번호 출력
+
+        // 클라이언트에 고유 키 반환 (인증번호는 직접 전달할 필요 없이 고유 키만 반환)
+        return new ResponseEntity<>(uniqueKey, HttpStatus.OK);  // 고유 키를 클라이언트에 전달
+    }
+
+ // 인증번호 확인
+    @PostMapping(value = "/checkVerifyCode.ajax")
+    public ResponseEntity<String> checkVerifyCode(@RequestParam("uniqueKey") String uniqueKey,
+                                                  @RequestParam("authCode") String inputCode) {
+        log.info("인증번호 확인 요청: " + uniqueKey + ", 입력된 인증번호: " + inputCode);
+
+        // Map에서 고유 키에 해당하는 인증번호 가져오기
+        String storedCode = authCodes.get(uniqueKey);
+
+        if (storedCode == null) {
+            // 고유 키가 존재하지 않음
+            return new ResponseEntity<>("Invalid Key", HttpStatus.BAD_REQUEST);
+        } else if (storedCode.equals(inputCode)) {
+            // 인증번호 일치
+            authCodes.remove(uniqueKey); // 인증 성공 후 키 삭제
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        } else {
+            // 인증번호 불일치
+            return new ResponseEntity<>("Failure", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+	 
+	
+}//class

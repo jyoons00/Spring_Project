@@ -1,0 +1,20 @@
+function info_jungbok(inputId, msgId) {
+    var userLoginId = $('#' + inputId).val();
+    
+    $.ajax({
+        url: '/ajax/jungbokCK.ajax',
+        type: 'POST',
+        contentType: 'json',
+        data: JSON.stringify({ userLoginId: userLoginId }),
+        success: function(response) {
+            if (response) {
+                $('#' + msgId).text('사용 가능한 아이디입니다.').addClass('txtOK').removeClass('txtError');
+            } else {
+                $('#' + msgId).text('이미 존재하는 아이디입니다.').addClass('txtError').removeClass('txtOK');
+            }
+        },
+        error: function() {
+            alert('서버 오류');
+        }
+    });
+}

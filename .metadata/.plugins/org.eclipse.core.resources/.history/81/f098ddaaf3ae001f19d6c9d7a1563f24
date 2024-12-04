@@ -1,0 +1,20 @@
+$(document).ready(function() {
+    $('#checkIdBtn').click(function() {
+        $.ajax({
+            url: '/ajax/jungbokCK.ajax',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ userLoginId: $('#user_login_id').val() }),
+            success: function(response) {
+                if (response) {
+                    $('#idMsg').text('사용 가능한 아이디입니다.').addClass('txtOK').removeClass('txtError');
+                } else {
+                    $('#idMsg').text('이미 존재하는 아이디입니다.').addClass('txtError').removeClass('txtOK');
+                }
+            },
+            error: function() {
+                alert('서버 오류');
+            }
+        });
+    });
+});

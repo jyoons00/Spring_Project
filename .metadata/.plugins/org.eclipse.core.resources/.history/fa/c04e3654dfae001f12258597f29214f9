@@ -1,0 +1,15 @@
+package kr.ohora.www.persistence;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import kr.ohora.www.domain.UserDTO;
+
+public interface AjaxMapper {
+	
+	//회원가입 페이지 아이디 이메일 폰번호 중복체크(준용)
+	public List<UserDTO> jungbokCK(@Param("userLoginId") String userLoginId, @Param("userEmail") String userEmail, @Param("userTel") String userTel ) throws SQLException;
+
+} // interface

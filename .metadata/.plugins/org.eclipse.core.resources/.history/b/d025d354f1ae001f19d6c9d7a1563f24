@@ -1,0 +1,39 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // 중복 확인 함수
+    function info_jungbok(inputId, msgId) {
+        var value = $('#' + inputId).val(); // 입력값 가져오기
+        var checked = $('#' + inputId).data('checked'); // 이미 중복 확인을 했는지 체크
+
+        if (checked === true) {
+            alert("이미 중복 확인을 완료했습니다.");
+            return;
+        }
+
+        if (!value) {
+            alert("값을 입력해주세요.");
+            return;
+        }
+
+        // 중복 확인을 위한 AJAX 요청
+        $.ajax({
+            url: '/ajax/jungbokCK.ajax', // 중복 체크 URL
+            type: 'GET',
+            data: {
+                userLoginId: value // userLoginId의 값 전달
+            },
+            success: function(response) {
+                if (response) {
+                    $('#' + msgId).text("중복된 값입니다.").css("color", "red"); // 중복 시
+                    $('#' + inputId).data('checked', true); // 중복 체크 상태로 설정
+                } else {
+                    $('#' + msgId).text("사용 가능한 값입니다.").css("color", "green"); // 중복되지 않으면
+                    $('#' + inputId).data('checked', true); // 중복 체크 상태로 설정
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#' + msgId).text("서버 오류가 발생했습니다.").css("color", "red"); // 오류 발생 시
+            }
+        });
+    }
+</script>
