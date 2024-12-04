@@ -1,7 +1,7 @@
 # 쌍용교육센터 스프링 컨버팅 프로젝트 파일<br>
 24.11.26 ~ 24.12.03
 
-![image](https://github.com/user-attachments/assets/827d9afe-d06d-4b7a-bbbf-9d6494473301)
+![image]([https://github.com/user-attachments/assets/827d9afe-d06d-4b7a-bbbf-9d6494473301](https://github.com/user-attachments/assets/abc1adb3-72a5-4af1-a046-1a48afe2eeff)
 #### DB파일 (https://github.com/jyoons00/Spring_Project_DB.git)<br>
 #### 포트폴리오 PPT ()<br>
 
