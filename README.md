@@ -18,6 +18,7 @@
 1. MVC 패턴의 흐름 파악
 2. JDBC 연동으로 서버와 통신
 3. Tomcat으로 DBCP 사용
+4. Spring 의존 모듈 사용
 
 #### 활용 기술
 - Spring Tools Suite 3.9.18
@@ -33,7 +34,7 @@
 
 #### Time Table
   - 24.11.26 ~ 24.12.03
-    - 
+    - 프로젝트 Converting
   - 24.12.03 ~ 24.12.04
     - PPT 제작 및 발표 준비
 ---
