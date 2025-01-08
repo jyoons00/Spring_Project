@@ -3,7 +3,7 @@
 
 ![image](https://github.com/user-attachments/assets/b690438a-275d-4158-ace0-01c0255702bf)
 #### DB파일 (https://github.com/jyoons00/Spring_Project_DB.git)<br>
-#### 발표 PPT (https://www.canva.com/design/DAGYV0KGmu4/wU3L0U2D3qIA197OU3eN0g/view?utm_content=DAGYV0KGmu4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h17f778b6b8)<br>
+#### PPT파일 (수정중)<br>
 
 ## 팀 프로젝트: 네일 전문 쇼핑몰 오호라 스프링 프레임워크로 컨버팅
 
