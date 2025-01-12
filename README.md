@@ -45,9 +45,9 @@
     - 아이디 찾기
     - 비밀번호 찾기
     - 인증 이메일 전송
-      (root-context.xml 값은 비워두었습니다. 개인 이메일 및 구글 앱 비밀번호 넣으시면 됩니다.)
-      <property name="username" value="발송자 이메일 넣기@gmail.com"/>
-		  <property name="password" value="구글 앱 비밀번호 넣기"/>
+      - (root-context.xml 값은 비워두었습니다. 개인 이메일 및 구글 앱 비밀번호 넣으시면 됩니다.)
+      - <property name="username" value="발송자 이메일 넣기@gmail.com"/>
+      - <property name="password" value="구글 앱 비밀번호 넣기"/>
     - 비밀번호 변경
 - 상품: 송세호
 - 장바구니: 이시훈
