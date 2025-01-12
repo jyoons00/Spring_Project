@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,35 +67,46 @@ public class UserRESTController {
 
 	}
 
-	// 인증번호 발급
-	@GetMapping(value = "/getCode.ajax")
-	public Integer getCode(HttpSession session) {
-	    try {
-	        // 랜덤 숫자 생성
-	        Random random = new Random();
-	        int numberCode = 10000 + random.nextInt(90000); 
+	@Autowired 
+	 private JavaMailSender mailSender;  // JavaMailSender 주입
+	
+    // 인증번호 발급 및 이메일 발송
+    @GetMapping(value = "/getCode.ajax")
+    public Integer getCode(HttpSession session, @RequestParam("email") String email) {
+        try {
+            // 랜덤 숫자 생성 (5자리 인증번호)
+            Random random = new Random();
+            int numberCode = 10000 + random.nextInt(90000); 
+            String authCode = String.valueOf(numberCode);
 
-	        String authCode = String.valueOf(numberCode);
+            log.info("사용자에게 발송할 인증번호: " + authCode);
 
-	        log.info("사용자에게 발송할 인증번호: " + authCode);
+            // 인증번호 이메일 발송
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("ohoramailtest@gmail.com");  // 보내는 이메일 주소
+            message.setTo(email);  // 받는 사람 이메일
+            message.setSubject("인증번호 발송");  // 이메일 제목
+            message.setText("인증번호는 " + authCode + " 입니다.");  // 이메일 내용
 
-	        // BCryptPasswordEncoder를 이용한 암호화
-	        String encryptedAuthCode = passwordEncoder.encode(authCode);
+            // 이메일 전송
+            mailSender.send(message);
 
-	        // 인증번호와 생성 시간을 세션에 저장
-	        long timestamp = System.currentTimeMillis();
-	        session.setAttribute("authCode", encryptedAuthCode);
-	        session.setAttribute("authCodeTimestamp", timestamp);
+            // BCryptPasswordEncoder를 이용한 해시화
+            String encryptedAuthCode = passwordEncoder.encode(authCode);
 
-	        log.info("인증번호는 암호화된 상태로 세션에 저장됨: " + encryptedAuthCode);
+            // 인증번호와 생성 시간을 세션에 저장
+            long timestamp = System.currentTimeMillis();
+            session.setAttribute("authCode", encryptedAuthCode);
+            session.setAttribute("authCodeTimestamp", timestamp);
 
-	        return 1;  // 발급 성공 메시지
-	    } catch (Exception e) {
-	        log.error("인증번호 발송 중 오류 발생: ", e);
-	        return 0;  // 발급  실패 메시지
-	    }
-	}
+            log.info("인증번호는 해시화된 상태로 세션에 저장됨: " + encryptedAuthCode);
 
+            return 1;  // 발급 성공
+        } catch (Exception e) {
+            log.error("인증번호 발송 중 오류 발생: ", e);
+            return 0;  // 발급 실패
+        }
+    }
 
 
 	// 인증번호 확인
