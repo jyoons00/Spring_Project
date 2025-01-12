@@ -234,35 +234,46 @@ System.out.println("@@@@@@@@@@@@@@ : " + userID); %>
         인증번호 받기
       </button>
       
+      
       <!-- 인증번호 받기 -->
-    <script>
-	  function getVerifyCode() {
-	    // AJAX 요청
-	    $.ajax({
-	      url: "/ajax/getCode.ajax", 
-	      type: "GET", 
-	      dataType: "json",
-	      success: function (response) {
-	        // 서버에서 받은 응답을 분기하여 처리
-	        if (response == 1) {
-	          // 인증번호 발급 성공
-	          alert("인증번호가 발송되었습니다.");
-	        } else if (response == 0) {
-	          // 인증번호 발급 실패
-	          alert("인증번호 발송에 실패했습니다.");
-	        } else {
-	          // 예기치 않은 응답 처리
-	          alert("알 수 없는 오류가 발생했습니다.");
-	        }
-	      },
-	      error: function (xhr, status, error) {
-	        console.error("에러 발생: ", error);
-	        alert("인증번호를 받는 데 문제가 발생했습니다.");
-	      },
-	    });
-	  }
-	</script>
-
+		<script>
+		  function getVerifyCode() {
+		    var email = $("#value").val();  // 이메일 값 가져오기 (input의 value에서 이메일을 가져옴)
+		
+		    // 이메일 값이 비어있는지 확인
+		    if (!email) {
+		      alert("이메일을 입력해주세요.");
+		      return;  // 이메일이 비어 있으면 요청하지 않도록 중지
+		    }
+	
+	    // 이메일 값을 콘솔로 확인
+	    console.log("입력된 이메일: ", email);  // 콘솔에서 이메일 값 출력
+	
+		    // AJAX 요청
+		    $.ajax({
+		      url: "/ajax/getCode.ajax",
+		      type: "GET",
+		      data: { email: email },  
+		      dataType: "json",
+		      success: function (response) {
+		        // 서버에서 받은 응답을 분기하여 처리
+		        if (response == 1) {
+		          alert("인증번호가 발송되었습니다.");
+		        } else if (response == 0) {
+		          alert("인증번호 발송에 실패했습니다.");
+		        } else {
+		          alert("알 수 없는 오류가 발생했습니다.");
+		        }
+		      },
+		      error: function (xhr, status, error) {
+		        console.error("에러 발생: ", error);
+		        alert("인증번호를 받는 데 문제가 발생했습니다.");
+		      },
+		    });
+		  }
+		</script>
+      
+   
       <!-- 인증번호 입력란 -->
       <div class="label-container" style="top: 115px">
         <span class="label-text">인증번호</span>
